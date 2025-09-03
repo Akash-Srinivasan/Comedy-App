@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: comedy-frontend
+  namespace: comedy-discovery
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: comedy-frontend
+  template:
+    metadata:
+      labels:
+        app: comedy-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: comedy-app/frontend:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NEXT_PUBLIC_SUPABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: supabase-url
+        - name: NEXT_PUBLIC_SUPABASE_ANON_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: supabase-anon-key
+        - name: NEXT_PUBLIC_API_URL
+          value: "http://comedy-backend-service:8000"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: comedy-frontend-service
+  namespace: comedy-discovery
+spec:
+  selector:
+    app: comedy-frontend
+  ports:
+  - port: 3000
+    targetPort: 3000
+  type: ClusterIP

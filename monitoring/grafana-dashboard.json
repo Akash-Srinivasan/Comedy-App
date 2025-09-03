@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboards
+  namespace: comedy-discovery
+data:
+  comedy-dashboard.json: |
+    {
+      "dashboard": {
+        "id": null,
+        "title": "Comedy Discovery Metrics",
+        "panels": [
+          {
+            "title": "Recommendation Requests",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(http_requests_total{job=\"comedy-backend\",endpoint=\"/recommendations\"}[5m])",
+                "legendFormat": "Requests/sec"
+              }
+            ]
+          },
+          {
+            "title": "User Interactions",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(user_interactions_total[5m])",
+                "legendFormat": "{{interaction_type}}"
+              }
+            ]
+          },
+          {
+            "title": "Model Performance",
+            "type": "singlestat",
+            "targets": [
+              {
+                "expr": "avg(recommendation_accuracy)",
+                "legendFormat": "Accuracy"
+              }
+            ]
+          }
+        ]
+      }
+    }
