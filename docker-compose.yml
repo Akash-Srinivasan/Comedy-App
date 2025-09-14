@@ -1,5 +1,4 @@
 # docker-compose.yml
-version: '3.8'
 
 services:
   frontend:
@@ -9,8 +8,8 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
-      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - NEXT_PUBLIC_SUPABASE_URL=$https://atszsoxuuifclleidzme.supabase.co
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=$eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF0c3pzb3h1dWlmY2xsZWlkem1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYwOTMyNzIsImV4cCI6MjA3MTY2OTI3Mn0.1SNbiOCXgslVefclXyFep4Lue1tHv_d3XARKAGjCJxM
       - NEXT_PUBLIC_API_URL=http://localhost:8000
     depends_on:
       - backend
